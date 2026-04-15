@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>吉依卡娃德州撲克 ✨</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- 標題 -->
+  <header>
+    <h1>🌸 吉依卡娃德州撲克 🌸</h1>
+    <p class="subtitle">チイカワ Texas Hold'em ✨</p>
+  </header>
+
+  <!-- 遊戲主區域 -->
+  <main id="game-container">
+
+    <!-- 對手區域 -->
+    <section id="opponents">
+      <div class="opponent-card" id="opp-hachiware">
+        <div class="avatar">🐱</div>
+        <div class="name">ハチワレ</div>
+        <div class="chips" id="opp-hachiware-chips">💰 800</div>
+        <div class="opponent-hand" id="opp-hachiware-hand">
+          <div class="card back">🌸</div>
+          <div class="card back">🌸</div>
+        </div>
+        <div class="bet-display" id="opp-hachiware-bet"></div>
+      </div>
+
+      <div class="opponent-card" id="opp-usagi">
+        <div class="avatar">🐰</div>
+        <div class="name">うさぎ</div>
+        <div class="chips" id="opp-usagi-chips">💰 800</div>
+        <div class="opponent-hand" id="opp-usagi-hand">
+          <div class="card back">🌸</div>
+          <div class="card back">🌸</div>
+        </div>
+        <div class="bet-display" id="opp-usagi-bet"></div>
+      </div>
+
+      <div class="opponent-card" id="opp-momonga">
+        <div class="avatar">🐿️</div>
+        <div class="name">モモンガ</div>
+        <div class="chips" id="opp-momonga-chips">💰 800</div>
+        <div class="opponent-hand" id="opp-momonga-hand">
+          <div class="card back">🌸</div>
+          <div class="card back">🌸</div>
+        </div>
+        <div class="bet-display" id="opp-momonga-bet"></div>
+      </div>
+    </section>
+
+    <!-- 公共牌 + 彩池 -->
+    <section id="board-area">
+      <div id="pot-display">🌟 彩池: <span id="pot-amount">0</span> 籌碼</div>
+      <div id="community-cards">
+        <div class="card placeholder" id="cc-0">?</div>
+        <div class="card placeholder" id="cc-1">?</div>
+        <div class="card placeholder" id="cc-2">?</div>
+        <div class="card placeholder" id="cc-3">?</div>
+        <div class="card placeholder" id="cc-4">?</div>
+      </div>
+      <div id="game-message">🌸 準備好了嗎？按下「發牌」開始遊戲！</div>
+    </section>
+
+    <!-- 玩家區域 -->
+    <section id="player-area">
+      <div id="player-info">
+        <div class="avatar">🐹</div>
+        <div>
+          <div class="name">チイカワ（你）</div>
+          <div class="chips" id="player-chips">💰 800</div>
+          <div class="bet-display" id="player-bet"></div>
+        </div>
+      </div>
+      <div id="player-hand">
+        <div class="card placeholder" id="pc-0">?</div>
+        <div class="card placeholder" id="pc-1">?</div>
+      </div>
+    </section>
+
+    <!-- 操作按鈕 -->
+    <section id="action-area">
+      <button id="btn-deal" class="btn btn-primary" onclick="startGame()">🃏 發牌</button>
+      <button id="btn-check" class="btn btn-secondary" onclick="playerCheck()" disabled>過牌 Check</button>
+      <button id="btn-call" class="btn btn-secondary" onclick="playerCall()" disabled>跟注 Call</button>
+      <div id="raise-area">
+        <input type="range" id="raise-slider" min="20" max="500" step="20" value="40"
+          oninput="updateRaiseDisplay(this.value)" disabled />
+        <span id="raise-amount">40</span>
+        <button id="btn-raise" class="btn btn-accent" onclick="playerRaise()" disabled>加注 Raise</button>
+      </div>
+      <button id="btn-fold" class="btn btn-danger" onclick="playerFold()" disabled>棄牌 Fold</button>
+    </section>
+
+  </main>
+
+  <!-- 結果彈窗 -->
+  <div id="result-modal" class="modal hidden">
+    <div class="modal-content">
+      <div id="result-emoji">🎉</div>
+      <h2 id="result-title">結果</h2>
+      <p id="result-desc"></p>
+      <div id="showdown-hands"></div>
+      <button class="btn btn-primary" onclick="closeModal()">繼續遊戲 🌸</button>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
