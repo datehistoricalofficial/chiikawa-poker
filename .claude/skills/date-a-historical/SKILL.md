@@ -66,6 +66,137 @@ AI 腔則是「任何角色講都一樣僵」的那種句子——那才是要�
 
 ---
 
+### 英文對白：每個角色有自己的口語層級
+
+來源：EP.2 ACT 4 重審英文時發現的核心陷阱（"Pay whom" 該不該改成 "Pay who?"）。
+
+#### 核心陷阱：「自然口語」不是普世標準
+
+寫英文對白時最容易犯的錯：**用「普通現代美國人怎麼講話」當預設「自然口語」標準**，然後把所有不符合的句子當成「太書面、要改」。
+
+這是錯的。**每個古人角色有他自己的口語層級**——他的「自然」由以下決定：
+- **出生地與母語**（英文是母語 vs 後學）
+- **年代**（19 世紀 vs 21 世紀）
+- **教育**（古典教育 vs 一般教育）
+- **階級**（受過正式語言訓練 vs 沒受過）
+- **職業**（工程師、律師、詩人 vs 一般職業）
+- **個性**（精準型 vs 鬆散型）
+
+「太正式」「太書面」對某個現代角色是 AI 腔，對另一個古人是**角色腔，必須保留**。
+
+#### EP.2 實例：特斯拉的口語層級
+
+特斯拉背景：1856 年塞爾維亞出生、母語塞爾維亞語＋德語、英文是成年後學的、受過古典歐洲教育、工程師，講話精準到被當代人形容「過度正式像在朗讀」。
+
+| 普通美國人會講 | 特斯拉會講 | 為什麼 |
+|---|---|---|
+| Pay who? | Pay whom. | 他真的用 whom，文法精準 |
+| We were building... | We were to build... | 契約用語、特斯拉腔 |
+| I didn't tell him | I did not tell him | 他不用縮寫 |
+| He stopped funding | He would not be funding any more | 高階英文時態 |
+| He was a man who kept his word | He was a man who honoured his contracts | 19 世紀紳士回憶腔 |
+| For 51% of my patents | In exchange for fifty-one percent of my patents | 契約用語 |
+| He was scared of free electricity | He was afraid of free electricity | "afraid" 比 "scared" 更正式 |
+
+**這些「太正式」的英文，全部保留**——改成口語版會把他變成普通美國人，角色就沒了。
+
+#### EP.2 同場兩種層級並存
+
+ACT 4 同一段戲裡，兩種完全不同層級的英文同時存在：
+
+**特斯拉**：
+> "Morgan was the man who paid. In 1901, he gave me a hundred and fifty thousand dollars in exchange for fifty-one percent of my patents. The contract was specific: we were to build a wireless telegraph tower."
+
+**製作組**：
+> "...You know you pay for the internet now, right? Every month."
+> "...So he pulled out because you broke the contract. Not because he was scared of free electricity."
+
+同一段戲，兩種層級。特斯拉的書面感跟製作組的口語感**互相對照**，這個落差本身就是節目的喜劇引擎之一。把特斯拉的英文「口語化」= 拆掉這個落差 = 拆掉節目。
+
+#### 寫每句英文對白前的判斷流程
+
+**Step 1：誰在說？**（古人 / 現代角色）
+
+**Step 2：如果是古人，他的英文層級在哪？**
+- 母語是英文嗎？（影響縮寫使用）
+- 哪個年代？（影響時態跟用字）
+- 哪個階級／教育？（影響句構複雜度）
+
+**Step 3：判斷「自然」的座標系**
+- 對普通現代美國人 ＝ AI 腔，但對這個角色 ＝ 角色腔 → **留**
+- 對普通現代美國人 ＝ 自然，但對這個角色 ＝ out of character → **改**
+
+#### 每集每角色「英文口語檔案」必填
+
+```
+角色：[名字]
+出生地／母語：
+年代：
+教育：
+個性與職業：
+特徵：
+  - 縮寫：[用 / 不用 / 看情況]
+  - 高階英文用字：[whom / whilst / amongst / however / ...]
+  - 時態複雜度：[簡單 / 完成式 / 條件式]
+  - 句子長度：[短句 / 長句帶子句]
+範例對白：
+```
+
+**特斯拉範本：**
+```
+角色：Nikola Tesla
+出生地／母語：塞爾維亞，母語塞爾維亞語＋德語，英文後學
+年代：1856–1943
+教育：奧地利古典教育、技術學院
+個性與職業：工程師、精準狂、戲劇性、絕對自信
+特徵：
+  - 縮寫：不用（"I do not" not "I don't"）
+  - 高階英文用字：whom, in exchange for, would not be, was to build, honoured
+  - 時態複雜度：完整使用（conditional, past perfect）
+  - 句子長度：短到中，結構精準
+範例：
+  "Morgan was the man who paid."
+  "That is faster than any coil I ever built."
+```
+
+**圖靈範本：**
+```
+角色：Alan Turing
+出生地／母語：英國，母語英文
+年代：1912–1954
+教育：劍橋大學數學
+個性與職業：數學家、精準、英式低調
+特徵：
+  - 縮寫：用一些，比一般人少
+  - 高階英文用字：rather, quite, perfectly, indistinguishable, precisely
+  - 句子長度：短到中，常用破折號跟省略
+範例：
+  "It moved first. I hadn't asked it anything."
+  "That's rather the point of the modern—"
+```
+
+**製作組範本：**
+```
+角色：Producer (O.S.)
+出生地／母語：現代美國
+特徵：縮寫全用、句子極短、deadpan
+範例：
+  "...Let me check."
+  "...You know you pay for the internet now, right?"
+```
+
+#### 寫作流程建議
+
+1. **先寫中文**——中文是底稿，定氣口、定節奏、定情緒
+2. **照中文寫英文**——把中文每一句的氣口翻譯成那個**角色的英文層級**，不是翻成「自然美國英文」
+3. **不要把英文當底稿、中文當翻譯**——英文先寫容易預設「自然 ＝ 美國人」，中文被迫跟著錯位
+
+#### 一句話總結
+
+**「自然」不是普世的。每個角色有他自己的自然。寫英文對白前先問：「對他來說的自然，是什麼樣？」**
+
+---
+
 ### 第三道關：年代語言考據（古人不會有的詞）
 
 前兩道關（像不像人話、像不像這個角色）之外，時代錯置喜劇還有第三道關：
