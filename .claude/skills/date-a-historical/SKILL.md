@@ -291,6 +291,124 @@ ACT 3 從 17 行 + confessional → 9 行純台詞，約剩 1/3，這是正確�
 
 ---
 
+### 情緒高峰幕寫作守則（從「ACT 4 WiFi」修正提煉）
+
+來源：EP.2 ACT 4「WiFi」場景重寫的失誤模式整理。
+對應幕型：**情緒高峰幕**（角色生命主題被當面回放的時刻），跟「短戲」（小發現、過場）相對。
+
+#### v1 vs v 終 對照
+
+**v1（有毒）：**
+```
+TURING: It won't continue until it connects to an outside network. …So it can't think on its own. Its mind isn't *in* here. It's a terminal. It's borrowing a brain from somewhere else—
+TESLA: Borrowing it through *what.* Give me the word.
+TURING: …"Wireless."
+TESLA: Wireless. The whole building is sitting inside an invisible field. Right now. I lit glass tubes in '93 with no wires running to them. People thought it was a trick. They called me a sorcerer.
+PRODUCER (O.S.): …It's the Wi-Fi. There's a password at the counter.
+TESLA: You are standing inside my field.
+TURING: I'm standing inside *its* field. You're measuring the electricity. I'm measuring how far away it keeps its *mind.* Same discovery. You only see half of it—
+TESLA: Half? I see *all* of it. You see a metal slab that gets warm—
+[Screen: ENTER PASSWORD.]
+TURING: It wants a password.
+TESLA: …A password.
+TURING: Your free, infinite field for all mankind. Eight characters. It's taped to the counter.
+TESLA: …They put a tollgate on my field.
+TURING: That's exactly what Morgan said.
+TESLA: Do not say that name to me.
+TURING: …We're connected.
+TESLA: …He'd have *loved* this.
+```
+
+**v 終（修正後）：**
+```
+TURING: It says it won't go any further until it joins something called a "network."
+TESLA: A what.
+TURING: A network. I don't know either.
+PRODUCER (O.S.): …It needs the Wi-Fi. The radio signal. The whole building has it.
+TESLA: …The whole building has what.
+PRODUCER (O.S.): A signal. Through the air.
+TESLA: …Show me where.
+PRODUCER (O.S.): You can't see it.
+TESLA: Of course not. It's modulated. What frequency.
+PRODUCER (O.S.): …I don't know that.
+TESLA: It will be in the megahertz. Higher. Tens of megahertz. No — higher. To carry a picture, a sound, a written word, all of it at once, you would need hundreds. Thousands of megahertz. That isn't possible. That is an oscillation faster than any coil I ever built.
+PRODUCER (O.S.): …It's about two and a half gigahertz.
+TESLA: …Two and a half thousand million oscillations. Per second. Inside this room.
+PRODUCER (O.S.): Yes.
+TESLA: …Through the walls. To every device. Simultaneously.
+[Producer doesn't answer. Beat.]
+TESLA: I designed a tower for this. In 1901. On Long Island. They wrote letters to the editor calling me a charlatan. They were standing inside it and they did not know.
+TURING: Nikola?
+TESLA: I am perfectly fine.
+TURING: You're standing very still.
+TESLA: I have not moved because I am *thinking,* Alan. There is a signal in this room. I waited my whole life for this room.
+[Screen: ENTER PASSWORD.]
+TURING: It wants a password.
+TESLA: …A password.
+TURING: For your signal through the air. Eight characters. It's taped to the counter.
+TESLA: …They put a tollgate on it.
+TURING: …
+TURING: …We're connected.
+TESLA: Morgan would have *loved* this.
+```
+
+#### 失誤模式對照（八種）
+
+| # | 失誤模式 | v1 病例 | v 終 修正 |
+|---|---|---|---|
+| 1 | **角色預設懂他不該懂的東西** | 圖靈一看「連網」就斷言「它的腦不在裡面、它是個終端」；特斯拉一看 WiFi 提示就講「整棟樓在一個場裡」 | 兩人都老實說「我也不知道」、被製作組告知「無線電訊號」後才反應 |
+| 2 | **小事偷推進度、把後面該講的先講掉** | WiFi 一連線就跳到「機器智能哪裡來」——這是 ACT 5 ChatGPT 才該炸的哲學辯論 | 哲學留給 ACT 5，這幕只處理「特斯拉的願景成真」 |
+| 3 | **替角色舉證** | 圖靈知道「Morgan 當年講的一模一樣」——他不可能知道兩人的對話細節 | 砍掉，Morgan 只由特斯拉自己口中說出 |
+| 4 | **角色辯論太工整像辯題** | 「你只看到一半／我看到全部／你看到一塊發熱金屬板」 | 砍掉正面對撞，兩人各自沉浸不互嗆 |
+| 5 | **製作組像 NPC 連點頭** | 五個「Yes/對」連發確認特斯拉假設 | 只給一個關鍵「對」（24 億次那刻），其他併成特斯拉自言自語＋製作組沉默 |
+| 6 | **重複句湊節奏** | 「Morgan would have liked」緊接「Morgan would have loved」 | 砍第一句，讓 Morgan 收尾一次爆出、份量集中 |
+| 7 | **角色用歷史當「論證武器」** | 特斯拉「我 1893 年點亮過玻璃燈管，被叫巫師！」（自誇、論證、討拍） | 改成「他們現在就站在裡面，他們不知道」（歷史是傷口，不是武器） |
+| 8 | **沒給情緒落地的空間** | 一路咬合對撞、沒有沉默 | 加入製作組沉默、圖靈「……」、「我這輩子都在等這個房間」讓情緒落地 |
+
+#### 情緒高峰幕的兩個關鍵原則
+
+**原則 1：用「專業＋誠實困惑」展現驚嘆，不用宣告。**
+
+角色面對他生命主題成真，最有力的反應不是流眼淚、不是宣告勝利，是**他的天才還在運轉、用他的專業去推算、然後撞到自己知識的邊界**。
+
+特斯拉「驚嘆 WiFi」的走法：
+1. 用他懂的物理推算（megahertz、線圈震盪）
+2. 自己推算出「不可能」（上千 MHz 太快）
+3. 被真實數字打到（2.4 GHz）
+4. 重複那個物理量（24 億次震盪、每一秒、就在這房間）——因為腦子接受不了
+5. 把它跟自己的歷史連起來（Wardenclyffe）——淡淡的悲傷，不自憐
+
+這比「Behold! Mankind has done it!」好十倍。
+
+**原則 2：歷史是「對照組／傷口」，不是「論證武器」。**
+
+角色提自己的過去，不是為了證明「我說得對」，而是**眼前的事勾出了那段傷**。
+
+- ❌「我 1893 年就做過了！他們罵我是巫師！」（自誇、論證、討拍）
+- ✅「我為了這個設計了一座塔。1901 年。長島。他們罵我是騙子。**他們現在就站在裡面，他們不知道。**」（重點在「沒人記得是我先想到的」）
+
+#### 規模對照表（哪種幕用哪種寫法）
+
+| 幕型 | 典型場景 | 健康行數 | 寫法 | EP.2 例 |
+|---|---|---|---|---|
+| 短戲（小發現/過場） | 開機 Hello、過場 | 5–10 行 | 規模對、不大哉問、不放 confessional | ACT 3 |
+| 情緒高峰幕 | 角色生命主題被當面回放 | 25–35 行 | 專業＋誠實困惑、歷史是傷口、沉默讓情緒落地 | ACT 4 |
+| 智力對撞高峰 | 角色核心命題被真實挑戰 | 30–40 行 | 雙人濾鏡正面對撞、術語密集、三層結構 | ACT 5（ChatGPT） |
+| 喜劇崩潰幕 | 角色被推到設定的反面 | 20–30 行 | 高速崩潰、配重角色擋焦、Shorts hook 站得住 | ACT 6（CAPTCHA） |
+| Stinger | 收尾畫面 | 純視覺/極短 | 無對白或一句畫外音，純圖像做工 | ACT 8 |
+
+「情緒高峰幕」vs「智力對撞高峰」差別：
+- 情緒高峰幕是**一個角色的時刻**（ACT 4 是特斯拉的），另一角色是觀察者/陪伴
+- 智力對撞高峰是**兩個角色的時刻**，兩條濾鏡正面交火
+
+#### 一句話總結
+
+**情緒高峰幕的紀律**：專業誠實推算 + 被真實打到 + 歷史當傷口（不當武器）+ 給情緒落地的沉默 + 收尾單次爆出（不重複湊節奏）。
+
+不流淚、不感慨、不浮誇宣告。讓他重複那個物理量，因為他腦子接受不了。
+
+---
+
 ## 「人在講話」 vs 「文字在被寫」總結
 
 五道關合起來，就是「人在講話」這個感覺的具體拆解：
