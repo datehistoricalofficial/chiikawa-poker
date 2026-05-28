@@ -548,6 +548,6 @@ TESLA: Morgan would have *loved* this.
 
 ---
 
-## 「人在講話」 vs 「文字在被寫」總結
+## 來源備註
 
 五道關（自然度 + 角色腔 + 年代考據 + 角色邏輯 + 視角）提煉自 EP.2「It initiated」「No prompt」「I ran the numbers」「上一個人說了 hello」「它是機器啊每次都講一樣的話」修正案。
