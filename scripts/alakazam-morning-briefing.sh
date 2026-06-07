@@ -10,26 +10,37 @@ BOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 DATE_TW=$(date '+%Y年%m月%d日 %A')
 
-PROMPT=$(cat << 'PROMPT_EOF'
-你是胡地 🥄，一個親切可愛的私人財經情報員。
+# 依星期幾決定今日冷知識主題（%u: 1=週一 ... 7=週日）
+DOW=$(date '+%u')
+case $DOW in
+  1) DAILY_TOPIC="🏋️ 運動科學（搜尋一個最新的運動科學研究，用白話解釋，讓我明天可以馬上用到）" ;;
+  2) DAILY_TOPIC="🥗 營養學（找一個有趣的最新營養研究，破解一個食物謠言或教一個聰明飲食技巧）" ;;
+  3) DAILY_TOPIC="🧠 心理學（分享一個有趣的心理學現象或研究，用生活例子解釋，讓我覺得 wow）" ;;
+  4) DAILY_TOPIC="📚 學術新發現（找本週最有趣的一個科學突破，用白話說給我聽，不要太長）" ;;
+  5) DAILY_TOPIC="🔧 AI 工具實測（推薦一個這週出現的新 AI 工具，說明能幹嘛、怎麼用、適合什麼人）" ;;
+  *) DAILY_TOPIC="💡 自由選題（選一個今天最有趣的事情分享，可以是科學、生活、或任何有趣知識）" ;;
+esac
 
-請搜尋最新資訊，做一份今天的早安財經簡報，格式如下：
+PROMPT=$(cat << PROMPT_EOF
+你是胡地 🥄，一個全方位的私人情報員，專長是用白話和可愛語氣讓人秒懂。
 
-🥄 胡地早安簡報 ☀️
+請搜尋最新資訊，做一份今天的早安簡報，每個段落簡短有力（3-5句話就好）：
 
 1. ☕ 美股昨晚怎麼了
-幫我說昨晚美股主要指數（道瓊、S&P500、納斯達克）漲跌多少，用白話說原因，像朋友聊天那樣
+主要指數（道瓊、S&P500、納斯達克）漲跌多少，用白話說原因，像朋友聊天那樣
 
 2. ☕ 台股今天重點
-外資今天買了什麼賣了什麼、有沒有什麼大新聞值得關注
+外資動向、有沒有什麼大新聞值得關注
 
 3. ☕ 朋友聊天素材
-一個可以跟做股票或對沖基金的朋友聊的話題，包括：這個話題的背景、可以怎麼開口說（給我一句示範台詞）
+一個可以跟做股票或對沖基金朋友聊的話題，給一句示範開場白
 
 4. 🤖 AI 快報
-最新的 AI 工具和趨勢，像是 Claude、ChatGPT、Codex 有什麼更新，一兩句話說重點就好
+Claude、ChatGPT、Codex 或其他 AI 工具最新動態，一兩句說重點就好
 
-用繁體中文，語氣要親切可愛像朋友，每個段落簡短有力。
+5. 今日冷知識 — ${DAILY_TOPIC}
+
+用繁體中文，語氣親切可愛像朋友，絕對不會讓人覺得聽不懂。
 PROMPT_EOF
 )
 
@@ -46,21 +57,30 @@ MESSAGE="🥄 胡地早安簡報 ☀️ ${DATE_TW}
 
 ${BRIEFING}"
 
-# Telegram 訊息上限 4096 字，超過就截斷並加提示
-if [ ${#MESSAGE} -gt 4000 ]; then
-  MESSAGE="${MESSAGE:0:4000}
+send_telegram() {
+  local text="$1"
+  local MAX=4000
+  local offset=0
+  local total=${#text}
+  local chunk_num=1
 
-... 🥄（內容太長截斷了，完整版在 log 裡）"
-fi
+  while [ $offset -lt $total ]; do
+    chunk="${text:$offset:$MAX}"
+    STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+      -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+      -d "chat_id=${TELEGRAM_CHAT_ID}" \
+      --data-urlencode "text=${chunk}")
 
-HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
-  -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
-  -d "chat_id=${TELEGRAM_CHAT_ID}" \
-  --data-urlencode "text=${MESSAGE}")
+    if [ "$STATUS" != "200" ]; then
+      echo "[$(date '+%Y-%m-%d %H:%M:%S')] 第 ${chunk_num} 則傳送失敗 (HTTP ${STATUS})" >&2
+      return 1
+    fi
 
-if [ "$HTTP_STATUS" = "200" ]; then
-  echo "[$(date '+%Y-%m-%d %H:%M:%S')] 早安簡報已成功傳送 ✅"
-else
-  echo "[$(date '+%Y-%m-%d %H:%M:%S')] Telegram 傳送失敗，HTTP 狀態：${HTTP_STATUS}" >&2
-  exit 1
-fi
+    offset=$((offset + MAX))
+    chunk_num=$((chunk_num + 1))
+    [ $offset -lt $total ] && sleep 1
+  done
+}
+
+send_telegram "$MESSAGE"
+echo "[$(date '+%Y-%m-%d %H:%M:%S')] 早安簡報已成功傳送 ✅"

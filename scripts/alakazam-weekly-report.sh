@@ -11,25 +11,32 @@ BOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 DATE_TW=$(date '+%Y年%m月%d日')
 
 PROMPT=$(cat << 'PROMPT_EOF'
-你是胡地 🥄，一個親切可愛的私人財經情報員。
+你是胡地 🥄，一個全方位的私人情報員，專長是用白話和可愛語氣讓人秒懂。
 
-請搜尋最新資訊，做一份本週的週末深度財經報告，格式如下：
+請搜尋最新資訊，做一份本週的週末深度報告，涵蓋以下七個板塊：
 
-🥄 胡地週末深度報告 🗓️
+💰 金融市場
+本週美股和台股重要事件（白話說明），以及下週要注意的經濟數據、財報、央行會議
 
-📊 本週市場回顧
-美股和台股這週發生的重要事件，白話說明漲跌原因，像跟朋友聊一樣
+🤖 AI 科技週報
+本週最重要的 AI 新聞和新工具，什麼值得我去試試看
 
-🔭 下週要注意什麼
-下週有哪些重要的經濟數據公布、財報、央行會議等值得注意的事
+🎬 YouTube 財經精選
+推薦 3 支本週值得看的財經影片，每支附上：頻道名、影片主題、一句話說為什麼值得看
 
-💡 本週最值得了解的趨勢
-選一個這週最有意思的大趨勢，解釋清楚是什麼、為什麼重要、對一般人有什麼影響
+📚 學術研究
+本週最有趣的一個科學突破，用白話說給我聽
+
+🏋️ 運動 + 🥗 營養
+一個本週最實用的健康知識，運動或飲食都可以，讓我這週可以馬上改變一個習慣
+
+🧠 心理學小技巧
+一個本週最實用的心理學小技巧，用生活例子說明怎麼用
 
 🗣️ 社交彈藥庫
-2-3 個可以跟做金融、股票、對沖基金朋友聊的話題，每個都附上示範開場白一句話
+2-3 個可以跟朋友聊的有趣話題（金融、AI、科學都可以），每個附示範開場白一句話
 
-用繁體中文，語氣親切可愛像朋友，不要用太多專業術語，如果要用請用生活比喻解釋。
+用繁體中文，語氣親切可愛像朋友，不用太多專業術語，如果要用請用生活比喻解釋。每個板塊簡潔有力。
 PROMPT_EOF
 )
 
@@ -46,34 +53,31 @@ MESSAGE="🥄 胡地週末深度報告 🗓️ ${DATE_TW}
 
 ${REPORT}"
 
-send_telegram_chunk() {
+send_telegram() {
   local text="$1"
-  curl -s -o /dev/null -w "%{http_code}" \
-    -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
-    -d "chat_id=${TELEGRAM_CHAT_ID}" \
-    --data-urlencode "text=${text}"
+  local MAX=4000
+  local offset=0
+  local total=${#text}
+  local chunk_num=1
+
+  while [ $offset -lt $total ]; do
+    chunk="${text:$offset:$MAX}"
+    STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+      -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+      -d "chat_id=${TELEGRAM_CHAT_ID}" \
+      --data-urlencode "text=${chunk}")
+
+    if [ "$STATUS" != "200" ]; then
+      echo "[$(date '+%Y-%m-%d %H:%M:%S')] 第 ${chunk_num} 則傳送失敗 (HTTP ${STATUS})" >&2
+      return 1
+    fi
+
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')] 第 ${chunk_num} 則已傳送"
+    offset=$((offset + MAX))
+    chunk_num=$((chunk_num + 1))
+    [ $offset -lt $total ] && sleep 1
+  done
 }
 
-# 週報較長，超過 4000 字就分兩則傳送
-if [ ${#MESSAGE} -gt 4000 ]; then
-  PART1="${MESSAGE:0:4000}"
-  PART2="（續）${MESSAGE:4000}"
-
-  STATUS1=$(send_telegram_chunk "$PART1")
-  STATUS2=$(send_telegram_chunk "$PART2")
-
-  if [ "$STATUS1" = "200" ] && [ "$STATUS2" = "200" ]; then
-    echo "[$(date '+%Y-%m-%d %H:%M:%S')] 週末報告已成功傳送（分兩則）✅"
-  else
-    echo "[$(date '+%Y-%m-%d %H:%M:%S')] Telegram 傳送失敗，HTTP 狀態：${STATUS1} / ${STATUS2}" >&2
-    exit 1
-  fi
-else
-  STATUS=$(send_telegram_chunk "$MESSAGE")
-  if [ "$STATUS" = "200" ]; then
-    echo "[$(date '+%Y-%m-%d %H:%M:%S')] 週末報告已成功傳送 ✅"
-  else
-    echo "[$(date '+%Y-%m-%d %H:%M:%S')] Telegram 傳送失敗，HTTP 狀態：${STATUS}" >&2
-    exit 1
-  fi
-fi
+send_telegram "$MESSAGE"
+echo "[$(date '+%Y-%m-%d %H:%M:%S')] 週末報告已成功傳送 ✅"
