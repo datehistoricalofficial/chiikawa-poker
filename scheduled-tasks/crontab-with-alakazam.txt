@@ -1,0 +1,11 @@
+SHELL=/bin/bash
+PATH=/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+
+# 胡地 (Alakazam) — 私人財經情報員
+# 安裝方式：crontab ~/claude-code-bots/scheduled-tasks/crontab-with-alakazam.txt
+
+# ☀️ 每天早上 8:30 — 早安簡報
+30 8 * * * $HOME/claude-code-bots/scripts/alakazam-morning-briefing.sh >> $HOME/claude-code-bots/logs/morning-briefing.log 2>&1
+
+# 🗓️ 每週六早上 10:00 — 週末深度報告
+0 10 * * 6 $HOME/claude-code-bots/scripts/alakazam-weekly-report.sh >> $HOME/claude-code-bots/logs/weekly-report.log 2>&1
