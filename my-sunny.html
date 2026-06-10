@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>My Sunny ☀️</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --pink:      #ff69b4;
+            --pink-light:#ffb6c1;
+            --pink-pale: #fff0f5;
+            --pink-dark: #e05599;
+            --sidebar-w: 240px;
+            --text:      #444;
+            --text-light:#777;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Quicksand', 'Fredoka', sans-serif;
+            background: linear-gradient(135deg, #fff0f5 0%, #ffe4e1 100%);
+            min-height: 100vh;
+            color: var(--text);
+        }
+
+        .layout { display: flex; min-height: 100vh; }
+
+        /* ─── SIDEBAR ─── */
+        .sidebar {
+            width: var(--sidebar-w);
+            position: fixed;
+            top: 0; left: 0;
+            height: 100vh;
+            background: linear-gradient(180deg, #ff69b4 0%, #ff8cc8 100%);
+            display: flex;
+            flex-direction: column;
+            padding: 30px 0;
+            z-index: 100;
+            box-shadow: 4px 0 20px rgba(255,105,180,.25);
+        }
+
+        .sidebar-logo {
+            text-align: center;
+            padding: 0 20px 28px;
+            border-bottom: 1px solid rgba(255,255,255,.3);
+        }
+
+        .sidebar-logo .sun {
+            font-size: 48px;
+            display: inline-block;
+            animation: spin 10s linear infinite;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .sidebar-logo h2 {
+            color: white;
+            font-size: 20px;
+            font-weight: 700;
+            margin-top: 10px;
+            letter-spacing: 2px;
+        }
+
+        .sidebar-logo p {
+            color: rgba(255,255,255,.8);
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        .sidebar nav { flex: 1; padding: 24px 0; }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 13px 24px;
+            color: rgba(255,255,255,.85);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: background .2s, color .2s, padding-left .2s;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: rgba(255,255,255,.2);
+            color: white;
+            padding-left: 32px;
+        }
+
+        .nav-link.active {
+            background: rgba(255,255,255,.25);
+            border-right: 4px solid white;
+        }
+
+        .nav-link .icon { font-size: 20px; width: 24px; text-align: center; flex-shrink: 0; }
+
+        .sidebar-footer {
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,.3);
+        }
+
+        .sidebar-footer p { color: rgba(255,255,255,.8); font-size: 12px; line-height: 1.8; }
+
+        /* ─── MAIN ─── */
+        .main {
+            margin-left: var(--sidebar-w);
+            flex: 1;
+            padding: 0 0 60px;
+        }
+
+        /* ─── HERO ─── */
+        .hero {
+            background: linear-gradient(135deg, #ff69b4 0%, #ff8cc8 50%, #ffb6c1 100%);
+            padding: 70px 60px 60px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -80px; right: -80px;
+            width: 350px; height: 350px;
+            background: rgba(255,255,255,.08);
+            border-radius: 50%;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -100px; left: 200px;
+            width: 250px; height: 250px;
+            background: rgba(255,255,255,.05);
+            border-radius: 50%;
+        }
+
+        .hero-inner {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 40px;
+        }
+
+        .hero-text h1 {
+            font-size: 60px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            margin-bottom: 12px;
+            text-shadow: 0 4px 20px rgba(0,0,0,.1);
+        }
+
+        .hero-text .tagline {
+            font-size: 20px;
+            opacity: .9;
+            margin-bottom: 20px;
+        }
+
+        .since-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,.2);
+            border: 1px solid rgba(255,255,255,.3);
+            border-radius: 50px;
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: 700;
+            backdrop-filter: blur(8px);
+        }
+
+        .quote-card {
+            background: rgba(255,255,255,.15);
+            border: 1px solid rgba(255,255,255,.3);
+            border-radius: 20px;
+            padding: 24px 28px;
+            max-width: 380px;
+            backdrop-filter: blur(8px);
+            flex-shrink: 0;
+        }
+
+        .quote-card .quote-mark { font-size: 48px; line-height: 1; opacity: .5; }
+        .quote-card .quote-text { font-size: 18px; font-weight: 600; line-height: 1.6; margin: 4px 0 12px; }
+        .quote-card .quote-attr { font-size: 12px; opacity: .8; }
+
+        /* ─── CONTENT ─── */
+        .content { padding: 50px 60px 0; }
+
+        .section { margin-bottom: 56px; scroll-margin-top: 20px; }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .section-header .icon { font-size: 28px; }
+
+        .section-header h2 {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--pink);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .divider {
+            height: 3px;
+            background: linear-gradient(90deg, var(--pink), var(--pink-light), transparent);
+            border-radius: 2px;
+            margin-bottom: 28px;
+        }
+
+        /* ─── PROFILE CARD ─── */
+        .profile-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .profile-main {
+            background: white;
+            border-radius: 24px;
+            padding: 32px;
+            display: flex;
+            gap: 28px;
+            align-items: flex-start;
+            box-shadow: 0 8px 30px rgba(255,105,180,.1);
+        }
+
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff69b4, #ff8cc8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            flex-shrink: 0;
+            box-shadow: 0 8px 24px rgba(255,105,180,.3);
+        }
+
+        .profile-info h3 {
+            font-size: 26px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .profile-info .subtitle {
+            font-size: 14px;
+            color: var(--text-light);
+            margin-bottom: 16px;
+        }
+
+        .badge-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .badge-entj { background: linear-gradient(135deg, #ff69b4, #ff8cc8); color: white; }
+        .badge-nl   { background: #f0f8ff; color: #4a9eff; border: 1px solid #cce7ff; }
+        .badge-tw   { background: #fff5f0; color: #ff7043; border: 1px solid #ffd0c0; }
+        .badge-fund { background: #f0fff0; color: #43a047; border: 1px solid #b8e8b8; }
+
+        .profile-detail-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            color: var(--text-light);
+            margin-bottom: 8px;
+        }
+
+        .profile-detail-row .d-icon { font-size: 16px; width: 20px; }
+
+        /* Quick facts card */
+        .facts-card {
+            background: white;
+            border-radius: 24px;
+            padding: 28px 32px;
+            box-shadow: 0 8px 30px rgba(255,105,180,.1);
+        }
+
+        .facts-card h4 {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--pink);
+            margin-bottom: 18px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .fact-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #f5f5f5;
+            font-size: 14px;
+        }
+
+        .fact-row:last-child { border-bottom: none; }
+        .fact-label { color: var(--text-light); }
+        .fact-value { font-weight: 700; color: var(--text); text-align: right; }
+
+        /* ─── TATTOO QUOTE ─── */
+        .tattoo-banner {
+            background: linear-gradient(135deg, #ff69b4, #ff8cc8);
+            border-radius: 24px;
+            padding: 32px 40px;
+            color: white;
+            text-align: center;
+            margin-bottom: 56px;
+            box-shadow: 0 12px 40px rgba(255,105,180,.25);
+        }
+
+        .tattoo-banner .label { font-size: 12px; opacity: .8; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px; }
+        .tattoo-banner .quote { font-size: 24px; font-weight: 700; letter-spacing: 1px; }
+
+        /* ─── LOVES GRID ─── */
+        .loves-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+        }
+
+        .love-card {
+            background: white;
+            border: 2px solid var(--pink-light);
+            border-radius: 20px;
+            padding: 24px 20px;
+            text-align: center;
+            transition: transform .25s, box-shadow .25s;
+        }
+
+        .love-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 32px rgba(255,105,180,.18);
+        }
+
+        .love-card .love-emoji { font-size: 40px; margin-bottom: 12px; }
+        .love-card .love-title { font-size: 15px; font-weight: 700; color: var(--pink); margin-bottom: 8px; }
+        .love-card .love-desc  { font-size: 12px; color: var(--text-light); line-height: 1.7; }
+
+        /* ─── MILESTONE TIMELINE ─── */
+        .timeline-wrap {
+            position: relative;
+            overflow-x: auto;
+            padding: 20px 0 30px;
+        }
+
+        .timeline-track {
+            display: flex;
+            gap: 0;
+            min-width: max-content;
+            position: relative;
+            padding: 0 40px;
+        }
+
+        .timeline-track::before {
+            content: '';
+            position: absolute;
+            top: 24px;
+            left: 40px; right: 40px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--pink), var(--pink-light));
+            border-radius: 2px;
+        }
+
+        .milestone {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 160px;
+            padding: 0 16px;
+            position: relative;
+        }
+
+        .milestone-dot {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff69b4, #ff8cc8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            box-shadow: 0 4px 16px rgba(255,105,180,.3);
+            position: relative;
+            z-index: 1;
+            margin-bottom: 16px;
+            transition: transform .2s;
+        }
+
+        .milestone:hover .milestone-dot { transform: scale(1.15); }
+
+        .milestone-date {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--pink);
+            margin-bottom: 6px;
+            text-align: center;
+        }
+
+        .milestone-text {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text);
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        /* ─── FAVORITES ─── */
+        .fav-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .fav-card {
+            background: white;
+            border-radius: 20px;
+            padding: 24px 26px;
+            box-shadow: 0 4px 20px rgba(0,0,0,.06);
+            transition: transform .25s, box-shadow .25s;
+        }
+
+        .fav-card:hover { transform: translateY(-5px); box-shadow: 0 12px 32px rgba(255,105,180,.15); }
+
+        .fav-card h4 {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--pink);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .fav-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid #f8f8f8;
+            font-size: 13px;
+            color: var(--text-light);
+            line-height: 1.5;
+        }
+
+        .fav-item:last-child { border-bottom: none; }
+        .fav-item .fi { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+        /* ─── FUN FACTS ─── */
+        .funfacts-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        .funfact {
+            background: white;
+            border-radius: 16px;
+            padding: 20px 24px;
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            box-shadow: 0 4px 16px rgba(0,0,0,.05);
+            transition: transform .2s;
+        }
+
+        .funfact:hover { transform: translateX(4px); }
+
+        .funfact .num {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--pink-light);
+            line-height: 1;
+            flex-shrink: 0;
+            min-width: 36px;
+        }
+
+        .funfact .text { font-size: 14px; color: var(--text); line-height: 1.7; }
+        .funfact .text strong { color: var(--pink); }
+
+        /* ─── NAV CARDS ─── */
+        .nav-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 8px;
+        }
+
+        .nav-card {
+            background: linear-gradient(135deg, #ff69b4, #ff8cc8);
+            border-radius: 20px;
+            padding: 28px 32px;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            transition: transform .25s, box-shadow .25s;
+            box-shadow: 0 8px 24px rgba(255,105,180,.25);
+        }
+
+        .nav-card:hover { transform: translateY(-5px); box-shadow: 0 16px 40px rgba(255,105,180,.35); }
+
+        .nav-card .nc-icon { font-size: 40px; }
+
+        .nav-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+        .nav-card p  { font-size: 13px; opacity: .85; }
+
+        /* ─── FOOTER ─── */
+        footer {
+            margin-left: var(--sidebar-w);
+            background: linear-gradient(135deg, #ff69b4, #ff8cc8);
+            text-align: center;
+            padding: 32px;
+            color: white;
+        }
+
+        footer p { font-size: 13px; opacity: .9; line-height: 1.8; }
+
+        .heart { display: inline-block; animation: beat 1.5s ease-in-out infinite; }
+        @keyframes beat { 0%,100%{transform:scale(1)} 50%{transform:scale(1.25)} }
+    </style>
+</head>
+<body>
+
+<div class="layout">
+
+    <!-- ─── SIDEBAR ─── -->
+    <aside class="sidebar">
+        <div class="sidebar-logo">
+            <span class="sun">☀️</span>
+            <h2>MY SUNNY</h2>
+            <p>Since Nov 1, 2025</p>
+        </div>
+        <nav>
+            <a class="nav-link active" href="my-sunny.html">
+                <span class="icon">☀️</span> My Sunny
+            </a>
+            <a class="nav-link" href="sunny-guide.html">
+                <span class="icon">💕</span> Chat Guide
+            </a>
+            <a class="nav-link" href="chat.html">
+                <span class="icon">💬</span> Chat Log
+            </a>
+        </nav>
+        <div class="sidebar-footer">
+            <p>Becca &amp; Sunny<br><span class="heart">❤️</span> 2025 – 2026 <span class="heart">❤️</span></p>
+        </div>
+    </aside>
+
+    <!-- ─── MAIN ─── -->
+    <main class="main">
+
+        <!-- HERO -->
+        <div class="hero">
+            <div class="hero-inner">
+                <div class="hero-text">
+                    <h1>MY SUNNY ☀️</h1>
+                    <p class="tagline">The one who makes everything brighter</p>
+                    <div class="since-badge">
+                        🌸 &nbsp;First message — November 1, 2025
+                    </div>
+                </div>
+                <div class="quote-card">
+                    <div class="quote-mark">"</div>
+                    <div class="quote-text">遇見你是2025最開心的事之一</div>
+                    <div class="quote-attr">— Sunny, New Year 2026</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content">
+
+            <!-- PROFILE -->
+            <section class="section" id="profile">
+                <div class="section-header">
+                    <span class="icon">🪪</span>
+                    <h2>Profile</h2>
+                </div>
+                <div class="divider"></div>
+
+                <div class="profile-grid">
+                    <div class="profile-main">
+                        <div class="profile-avatar">☀️</div>
+                        <div class="profile-info">
+                            <h3>Sunny Hsieh &nbsp; 謝承廉</h3>
+                            <p class="subtitle">Fund Manager · Netherlands → Taiwan</p>
+                            <div class="badge-row">
+                                <span class="badge badge-entj">⚡ ENTJ</span>
+                                <span class="badge badge-nl">🇳🇱 Rotterdam</span>
+                                <span class="badge badge-tw">🇹🇼 Taipei</span>
+                                <span class="badge badge-fund">📈 Fund Manager</span>
+                            </div>
+                            <div class="profile-detail-row">
+                                <span class="d-icon">🌐</span>
+                                <span>English &amp; Traditional Chinese</span>
+                            </div>
+                            <div class="profile-detail-row">
+                                <span class="d-icon">💼</span>
+                                <span>Runs a hedge fund · frequent Asia trips</span>
+                            </div>
+                            <div class="profile-detail-row">
+                                <span class="d-icon">📱</span>
+                                <span>LinkedIn only — no Instagram 🙃</span>
+                            </div>
+                            <div class="profile-detail-row">
+                                <span class="d-icon">🏠</span>
+                                <span>Rotterdam, NL &nbsp;→&nbsp; Taipei, TW</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="facts-card">
+                        <h4>Quick Facts</h4>
+                        <div class="fact-row">
+                            <span class="fact-label">Personality</span>
+                            <span class="fact-value">ENTJ — The Commander ⚡</span>
+                        </div>
+                        <div class="fact-row">
+                            <span class="fact-label">Sleep</span>
+                            <span class="fact-value">Needs 9 hrs · sleeps at 2–4 AM 🌙</span>
+                        </div>
+                        <div class="fact-row">
+                            <span class="fact-label">Gym</span>
+                            <span class="fact-value">Every day — non-negotiable 💪</span>
+                        </div>
+                        <div class="fact-row">
+                            <span class="fact-label">Sweets</span>
+                            <span class="fact-value">Does NOT eat sweet food 🚫🍰</span>
+                        </div>
+                        <div class="fact-row">
+                            <span class="fact-label">PhD Plans</span>
+                            <span class="fact-value">Applying to NTU doctoral program 📚</span>
+                        </div>
+                        <div class="fact-row">
+                            <span class="fact-label">Tattoo</span>
+                            <span class="fact-value">Upper body ✨ with a story</span>
+                        </div>
+                        <div class="fact-row">
+                            <span class="fact-label">Superpower</span>
+                            <span class="fact-value">Spots interesting people instantly 👁️</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TATTOO QUOTE -->
+            <div class="tattoo-banner">
+                <div class="label">✨ Tattoo — Words he lives by</div>
+                <div class="quote">"Take you to the stars through difficulties"</div>
+            </div>
+
+            <!-- THINGS HE LOVES -->
+            <section class="section" id="loves">
+                <div class="section-header">
+                    <span class="icon">💗</span>
+                    <h2>Things Sunny Loves</h2>
+                </div>
+                <div class="divider"></div>
+                <div class="loves-grid">
+                    <div class="love-card">
+                        <div class="love-emoji">💪</div>
+                        <div class="love-title">Fitness &amp; Gym</div>
+                        <div class="love-desc">Goes every single day — skipping makes him genuinely uncomfortable. Will gym abroad, late at night, no excuses.</div>
+                    </div>
+                    <div class="love-card">
+                        <div class="love-emoji">🍽️</div>
+                        <div class="love-title">Good Food</div>
+                        <div class="love-desc">Savory &gt; sweet. Always. Will hunt down the best restaurant in every city and share it with you.</div>
+                    </div>
+                    <div class="love-card">
+                        <div class="love-emoji">✈️</div>
+                        <div class="love-title">Travel</div>
+                        <div class="love-desc">Business trips every month: Bali, Singapore, Hong Kong, Japan. Treats every city like home turf.</div>
+                    </div>
+                    <div class="love-card">
+                        <div class="love-emoji">📈</div>
+                        <div class="love-title">Work &amp; Ambition</div>
+                        <div class="love-desc">Runs his own fund. Applying for a PhD. Works until 2–4 AM regularly. Never not building something.</div>
+                    </div>
+                    <div class="love-card">
+                        <div class="love-emoji">👁️</div>
+                        <div class="love-title">People Reading</div>
+                        <div class="love-desc">"只會留意有趣的人" — only pays attention to interesting people. If he noticed you, that says everything.</div>
+                    </div>
+                    <div class="love-card">
+                        <div class="love-emoji">🎮</div>
+                        <div class="love-title">Werewolf Games</div>
+                        <div class="love-desc">Organises 狼人殺 / 阿佤龍 game nights with his friends circle. Strategic and social.</div>
+                    </div>
+                    <div class="love-card">
+                        <div class="love-emoji">🏡</div>
+                        <div class="love-title">Home &amp; Space</div>
+                        <div class="love-desc">Moved to a new apartment and chose pieces with high "Return on Emotion." Thoughtful about his environment.</div>
+                    </div>
+                    <div class="love-card">
+                        <div class="love-emoji">💡</div>
+                        <div class="love-title">Dry Humour</div>
+                        <div class="love-desc">Says things like "可能在等妳帶給我快樂" with a completely straight face. Lethal when he's in the mood.</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- MILESTONES -->
+            <section class="section" id="milestones">
+                <div class="section-header">
+                    <span class="icon">🌸</span>
+                    <h2>Our Milestones</h2>
+                </div>
+                <div class="divider"></div>
+                <div class="timeline-wrap">
+                    <div class="timeline-track">
+                        <div class="milestone">
+                            <div class="milestone-dot">✉️</div>
+                            <div class="milestone-date">Nov 1, 2025</div>
+                            <div class="milestone-text">First message<br>Nice to meet you Becka ☀️</div>
+                        </div>
+                        <div class="milestone">
+                            <div class="milestone-dot">🍽️</div>
+                            <div class="milestone-date">Nov 18, 2025</div>
+                            <div class="milestone-text">First dinner<br>Cantina del Gio, Taipei</div>
+                        </div>
+                        <div class="milestone">
+                            <div class="milestone-dot">🍲</div>
+                            <div class="milestone-date">Nov 29, 2025</div>
+                            <div class="milestone-text">He cooked<br>hot pot &amp; bento for Becca</div>
+                        </div>
+                        <div class="milestone">
+                            <div class="milestone-dot">🎄</div>
+                            <div class="milestone-date">Dec 24–25, 2025</div>
+                            <div class="milestone-text">Christmas together<br>Gift exchange 🎁</div>
+                        </div>
+                        <div class="milestone">
+                            <div class="milestone-dot">🎆</div>
+                            <div class="milestone-date">Jan 1, 2026</div>
+                            <div class="milestone-text">New Year message<br>"遇見你是2025最開心的事之一"</div>
+                        </div>
+                        <div class="milestone">
+                            <div class="milestone-dot">🗼</div>
+                            <div class="milestone-date">Feb 2026</div>
+                            <div class="milestone-text">Tokyo trip together<br>六本木· 銀座 · 表參道</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- HIS FAVORITES -->
+            <section class="section" id="favorites">
+                <div class="section-header">
+                    <span class="icon">⭐</span>
+                    <h2>His Favorites</h2>
+                </div>
+                <div class="divider"></div>
+                <div class="fav-grid">
+                    <div class="fav-card">
+                        <h4>🍽️ Food &amp; Restaurants</h4>
+                        <div class="fav-item"><span class="fi">🥩</span> Kilo Kitchen Bali — "my date restaurant"</div>
+                        <div class="fav-item"><span class="fi">🍷</span> Cantina del Gio — first dinner with Becca</div>
+                        <div class="fav-item"><span class="fi">🍞</span> Bread + cheese — daily staple at home</div>
+                        <div class="fav-item"><span class="fi">🥩</span> Wagyu sukiyaki — treats Becca in Tokyo</div>
+                        <div class="fav-item"><span class="fi">🍜</span> Cantonese cuisine — loves HK-style in AMS</div>
+                    </div>
+                    <div class="fav-card">
+                        <h4>🌍 Places &amp; Cities</h4>
+                        <div class="fav-item"><span class="fi">🇳🇱</span> Rotterdam / Amsterdam — home base</div>
+                        <div class="fav-item"><span class="fi">🇹🇼</span> Taipei (中山區) — trying to stay longer</div>
+                        <div class="fav-item"><span class="fi">🇮🇩</span> Bali — for work, for food, for vibes</div>
+                        <div class="fav-item"><span class="fi">🇯🇵</span> Tokyo — 六本木 · 銀座 itinerary master</div>
+                        <div class="fav-item"><span class="fi">🇸🇬</span> Singapore — regular business stop</div>
+                    </div>
+                    <div class="fav-card">
+                        <h4>🍸 Drinks &amp; Spots</h4>
+                        <div class="fav-item"><span class="fi">🍸</span> Pornstar Martini — "I know you'll love it"</div>
+                        <div class="fav-item"><span class="fi">🍪</span> Van Stapele — Amsterdam's #1 chocolate cookie</div>
+                        <div class="fav-item"><span class="fi">🌙</span> Full Moon bar — Amsterdam favourite</div>
+                        <div class="fav-item"><span class="fi">🥟</span> Bitterballen &amp; Kapsalon — proper Dutch snacks</div>
+                        <div class="fav-item"><span class="fi">🫖</span> Stays hydrated — health-conscious eater</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FUN FACTS -->
+            <section class="section" id="facts">
+                <div class="section-header">
+                    <span class="icon">💡</span>
+                    <h2>Fun Facts About Sunny</h2>
+                </div>
+                <div class="divider"></div>
+                <div class="funfacts-grid">
+                    <div class="funfact">
+                        <div class="num">01</div>
+                        <div class="text">He noticed Becca on the plane and thought she was interesting — <strong>but had "insufficient data"</strong> from such a short meeting. Still added her on LINE.</div>
+                    </div>
+                    <div class="funfact">
+                        <div class="num">02</div>
+                        <div class="text">His only social media is <strong>LinkedIn</strong>. No Instagram. No Facebook. Just lol.</div>
+                    </div>
+                    <div class="funfact">
+                        <div class="num">03</div>
+                        <div class="text">Needs <strong>9 hours of sleep</strong> to function, but regularly goes to bed at 2–4 AM. His body is perpetually confused.</div>
+                    </div>
+                    <div class="funfact">
+                        <div class="num">04</div>
+                        <div class="text">When Becca guessed his MBTI, he said <strong>"留給妳之後猜"</strong> — then revealed ENTJ when she got close enough.</div>
+                    </div>
+                    <div class="funfact">
+                        <div class="num">05</div>
+                        <div class="text">His colleagues <strong>wear face masks while working overtime</strong>. He is the person who said no to that.</div>
+                    </div>
+                    <div class="funfact">
+                        <div class="num">06</div>
+                        <div class="text">He once described himself as a <strong>"潛力股發掘師"</strong> (a talent scout for underrated people). Becca was his first case study.</div>
+                    </div>
+                    <div class="funfact">
+                        <div class="num">07</div>
+                        <div class="text">Gave Becca a <strong>full Amsterdam guide</strong> — Novotel locations, bars, Dutch food recommendations — while she was literally in his city for work.</div>
+                    </div>
+                    <div class="funfact">
+                        <div class="num">08</div>
+                        <div class="text">His visiting card to his grandmother in 永和 says everything: <strong>he's the kind of person who shows up</strong>, not just talks about it.</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- LINKS -->
+            <section class="section" id="links">
+                <div class="section-header">
+                    <span class="icon">🗂️</span>
+                    <h2>More About Us</h2>
+                </div>
+                <div class="divider"></div>
+                <div class="nav-cards">
+                    <a class="nav-card" href="sunny-guide.html">
+                        <span class="nc-icon">💕</span>
+                        <div>
+                            <h3>Chat Guide</h3>
+                            <p>How to keep your sunshine happy — best times, topics, starters &amp; more</p>
+                        </div>
+                    </a>
+                    <a class="nav-card" href="chat.html">
+                        <span class="nc-icon">💬</span>
+                        <div>
+                            <h3>Chat Log</h3>
+                            <p>Every message, from November 2025 to now — browse the full LINE conversation</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+        </div><!-- /content -->
+    </main>
+</div>
+
+<footer>
+    <p>My Sunny ☀️ &nbsp;·&nbsp; Becca &amp; Sunny <span class="heart">❤️</span> Since November 1, 2025</p>
+    <p style="margin-top:8px; font-size:12px; opacity:.8;">Built with love — every detail from our real conversations</p>
+</footer>
+
+</body>
+</html>
