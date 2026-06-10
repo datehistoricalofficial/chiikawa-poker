@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>How to Chat with Sunny 💕</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --pink:      #ff69b4;
+            --pink-light:#ffb6c1;
+            --pink-pale: #fff0f5;
+            --pink-dark: #e05599;
+            --sidebar-w: 240px;
+            --text:      #444;
+            --text-light:#777;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Quicksand', 'Fredoka', sans-serif;
+            background: linear-gradient(135deg, #fff0f5 0%, #ffe4e1 100%);
+            min-height: 100vh;
+            color: var(--text);
+        }
+
+        /* ─── LAYOUT ─── */
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ─── SIDEBAR ─── */
+        .sidebar {
+            width: var(--sidebar-w);
+            position: fixed;
+            top: 0; left: 0;
+            height: 100vh;
+            background: linear-gradient(180deg, #ff69b4 0%, #ff8cc8 100%);
+            display: flex;
+            flex-direction: column;
+            padding: 30px 0;
+            z-index: 100;
+            box-shadow: 4px 0 20px rgba(255,105,180,.25);
+        }
+
+        .sidebar-logo {
+            text-align: center;
+            padding: 0 20px 28px;
+            border-bottom: 1px solid rgba(255,255,255,.3);
+        }
+
+        .sidebar-logo .sun { font-size: 46px; animation: spin 8s linear infinite; display: inline-block; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .sidebar-logo h2 {
+            color: white;
+            font-size: 16px;
+            font-weight: 700;
+            margin-top: 8px;
+            letter-spacing: 1px;
+            line-height: 1.4;
+        }
+
+        .sidebar nav { flex: 1; padding: 20px 0; overflow-y: auto; }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 24px;
+            color: rgba(255,255,255,.85);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: background .2s, color .2s, padding-left .2s;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: rgba(255,255,255,.2);
+            color: white;
+            padding-left: 32px;
+        }
+
+        .nav-link .icon { font-size: 18px; width: 22px; text-align: center; flex-shrink: 0; }
+
+        .sidebar-footer {
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,.3);
+        }
+
+        .sidebar-footer p { color: rgba(255,255,255,.8); font-size: 12px; line-height: 1.7; }
+
+        /* ─── MAIN ─── */
+        .main {
+            margin-left: var(--sidebar-w);
+            flex: 1;
+            padding: 40px 50px 60px;
+            max-width: calc(100% - var(--sidebar-w));
+        }
+
+        /* ─── HERO ─── */
+        .hero {
+            background: linear-gradient(135deg, #ff69b4 0%, #ff8cc8 100%);
+            border-radius: 24px;
+            padding: 56px 60px;
+            color: white;
+            margin-bottom: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 40px;
+            box-shadow: 0 20px 60px rgba(255,105,180,.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -60px; right: -60px;
+            width: 280px; height: 280px;
+            background: rgba(255,255,255,.08);
+            border-radius: 50%;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -80px; right: 100px;
+            width: 200px; height: 200px;
+            background: rgba(255,255,255,.05);
+            border-radius: 50%;
+        }
+
+        .hero-text h1 { font-size: 42px; font-weight: 700; letter-spacing: 2px; margin-bottom: 14px; }
+        .hero-text p  { font-size: 18px; opacity: .9; line-height: 1.6; }
+
+        .hero-stats {
+            display: flex;
+            gap: 24px;
+            flex-shrink: 0;
+        }
+
+        .hero-stat {
+            background: rgba(255,255,255,.2);
+            border-radius: 18px;
+            padding: 18px 24px;
+            text-align: center;
+            backdrop-filter: blur(6px);
+        }
+
+        .hero-stat .num { font-size: 32px; font-weight: 700; }
+        .hero-stat .lbl { font-size: 12px; opacity: .85; margin-top: 4px; }
+
+        /* ─── SECTIONS ─── */
+        .section { margin-bottom: 52px; scroll-margin-top: 20px; }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .section-header .icon { font-size: 28px; }
+
+        .section-header h2 {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--pink);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .divider {
+            height: 3px;
+            background: linear-gradient(90deg, var(--pink), var(--pink-light), transparent);
+            border-radius: 2px;
+            margin-bottom: 28px;
+        }
+
+        /* ─── CARDS GRID ─── */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .card-grid-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .card {
+            background: white;
+            border: 2px solid var(--pink-light);
+            border-radius: 20px;
+            padding: 24px 28px;
+            transition: transform .25s, box-shadow .25s;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 14px 40px rgba(255,105,180,.18);
+        }
+
+        .card-title {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--pink);
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card ul { list-style: none; }
+
+        .card ul li {
+            color: var(--text-light);
+            font-size: 14px;
+            line-height: 1.8;
+            padding-left: 22px;
+            position: relative;
+            margin-bottom: 4px;
+        }
+
+        .card ul li::before { content: '💕'; position: absolute; left: 0; font-size: 12px; top: 2px; }
+
+        .card p { color: var(--text-light); font-size: 14px; line-height: 1.8; }
+
+        /* ─── INFO ROW ─── */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 16px;
+        }
+
+        .info-box {
+            background: var(--pink-pale);
+            border-left: 5px solid var(--pink);
+            border-radius: 14px;
+            padding: 18px 22px;
+        }
+
+        .info-box .label { font-weight: 700; color: var(--pink); font-size: 14px; margin-bottom: 6px; }
+        .info-box .value { color: var(--text-light); font-size: 14px; line-height: 1.6; }
+
+        /* ─── WARNING BOX ─── */
+        .warning-box {
+            background: linear-gradient(135deg, #ff85c0 0%, #ffb6c1 100%);
+            border-radius: 20px;
+            padding: 28px 32px;
+        }
+
+        .warning-box h3 { color: white; font-size: 18px; font-weight: 700; margin-bottom: 18px; }
+
+        .warning-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+        .warning-item {
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 10px 16px;
+            background: rgba(255,255,255,.2);
+            border-radius: 10px;
+            display: flex;
+            gap: 8px;
+            align-items: flex-start;
+        }
+
+        .warning-item::before { content: '⚠️'; flex-shrink: 0; font-size: 14px; }
+
+        /* ─── TIMELINE ─── */
+        .timeline {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            position: relative;
+            padding-left: 40px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 12px; top: 12px; bottom: 12px;
+            width: 3px;
+            background: linear-gradient(180deg, var(--pink), var(--pink-light));
+            border-radius: 2px;
+        }
+
+        .timeline-item {
+            background: white;
+            border: 2px solid var(--pink-light);
+            border-radius: 16px;
+            padding: 20px 22px;
+            margin-bottom: 16px;
+            position: relative;
+            transition: transform .25s, box-shadow .25s;
+        }
+
+        .timeline-item:hover {
+            transform: translateX(4px);
+            box-shadow: 0 8px 24px rgba(255,105,180,.15);
+        }
+
+        .timeline-item::before {
+            content: '🌸';
+            position: absolute;
+            left: -46px; top: 18px;
+            font-size: 22px;
+        }
+
+        .timeline-item .time { font-weight: 700; color: var(--pink); font-size: 15px; margin-bottom: 6px; }
+        .timeline-item .desc { color: var(--text-light); font-size: 13px; line-height: 1.7; }
+
+        /* ─── STARTERS ─── */
+        .starters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 14px;
+        }
+
+        .starter-pill {
+            background: white;
+            border: 2px solid var(--pink-light);
+            border-radius: 50px;
+            padding: 14px 22px;
+            font-size: 14px;
+            color: var(--text);
+            font-weight: 600;
+            transition: all .2s;
+            text-align: center;
+        }
+
+        .starter-pill:hover {
+            background: var(--pink);
+            color: white;
+            border-color: var(--pink);
+            transform: scale(1.03);
+        }
+
+        /* ─── IDEAL DAY ─── */
+        .ideal-day {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .day-block {
+            background: white;
+            border: 2px solid var(--pink-light);
+            border-radius: 20px;
+            padding: 24px;
+            text-align: center;
+            transition: transform .25s, box-shadow .25s;
+        }
+
+        .day-block:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(255,105,180,.18); }
+
+        .day-block .emoji { font-size: 36px; margin-bottom: 12px; }
+        .day-block .time  { font-size: 16px; font-weight: 700; color: var(--pink); margin-bottom: 8px; }
+        .day-block .desc  { font-size: 13px; color: var(--text-light); line-height: 1.7; }
+
+        /* ─── REMEMBER ─── */
+        .remember-box {
+            background: linear-gradient(135deg, #ff69b4, #ff8cc8);
+            border-radius: 24px;
+            padding: 40px 48px;
+            color: white;
+            font-size: 16px;
+            line-height: 1.9;
+            text-align: center;
+            box-shadow: 0 16px 50px rgba(255,105,180,.3);
+        }
+
+        .remember-box strong { font-size: 18px; }
+
+        /* ─── FOOTER ─── */
+        footer {
+            margin-left: var(--sidebar-w);
+            background: linear-gradient(135deg, #ff69b4, #ff8cc8);
+            text-align: center;
+            padding: 36px;
+            color: white;
+        }
+
+        footer h3 { font-size: 22px; letter-spacing: 1px; margin-bottom: 8px; }
+        footer p  { font-size: 13px; opacity: .9; line-height: 1.8; }
+
+        .heart { display: inline-block; animation: beat 1.5s ease-in-out infinite; }
+        @keyframes beat { 0%,100%{transform:scale(1)} 50%{transform:scale(1.25)} }
+    </style>
+</head>
+<body>
+
+<div class="layout">
+
+    <!-- ─── SIDEBAR ─── -->
+    <aside class="sidebar">
+        <div class="sidebar-logo">
+            <div class="sun">☀️</div>
+            <h2>HOW TO CHAT<br>WITH SUNNY</h2>
+        </div>
+        <nav>
+            <a class="nav-link" href="my-sunny.html">  <span class="icon">☀️</span> My Sunny</a>
+            <a class="nav-link active" href="sunny-guide.html"><span class="icon">💕</span> Chat Guide</a>
+            <a class="nav-link" href="chat.html">      <span class="icon">💬</span> Chat Log</a>
+            <div style="height:1px;background:rgba(255,255,255,.2);margin:10px 20px;"></div>
+            <a class="nav-link" href="#basic">      <span class="icon">✨</span> Basic Info</a>
+            <a class="nav-link" href="#style">       <span class="icon">💬</span> Communication</a>
+            <a class="nav-link" href="#times">       <span class="icon">🕐</span> Best Times</a>
+            <a class="nav-link" href="#topics">      <span class="icon">🎯</span> Topics They Love</a>
+            <a class="nav-link" href="#starters">    <span class="icon">💡</span> Starters</a>
+            <a class="nav-link" href="#happy">       <span class="icon">😊</span> Makes Them Happy</a>
+            <a class="nav-link" href="#avoid">       <span class="icon">⚠️</span> What to Avoid</a>
+            <a class="nav-link" href="#ideal">       <span class="icon">🌸</span> Ideal Day</a>
+            <a class="nav-link" href="#remember">    <span class="icon">💫</span> Remember</a>
+        </nav>
+        <div class="sidebar-footer">
+            <p>BECCA &amp; SUNNY<br><span class="heart">❤️</span> June 2026 <span class="heart">❤️</span></p>
+        </div>
+    </aside>
+
+    <!-- ─── MAIN ─── -->
+    <main class="main">
+
+        <!-- HERO -->
+        <div class="hero">
+            <div class="hero-text">
+                <h1>💕 HOW TO CHAT WITH SUNNY 💕</h1>
+                <p>The Ultimate Guide to Keeping Your Sunshine Happy ☀️<br>Based on real data from your WhatsApp conversations.</p>
+            </div>
+            <div class="hero-stats">
+                <div class="hero-stat"><div class="num">2,807</div><div class="lbl">Messages</div></div>
+                <div class="hero-stat"><div class="num">307</div><div class="lbl">Voice Calls</div></div>
+                <div class="hero-stat"><div class="num">889</div><div class="lbl">Photos/Videos</div></div>
+                <div class="hero-stat"><div class="num">4 Mo</div><div class="lbl">Of Closeness</div></div>
+            </div>
+        </div>
+
+        <!-- BASIC INFO -->
+        <section class="section" id="basic">
+            <div class="section-header">
+                <span class="icon">✨</span>
+                <h2>Basic Info</h2>
+            </div>
+            <div class="divider"></div>
+            <div class="info-grid">
+                <div class="info-box">
+                    <div class="label">📍 Location</div>
+                    <div class="value">Netherlands 🇳🇱 (UTC+2 Amsterdam time)</div>
+                </div>
+                <div class="info-box">
+                    <div class="label">🗣️ Languages</div>
+                    <div class="value">English &amp; Traditional Chinese</div>
+                </div>
+                <div class="info-box">
+                    <div class="label">💬 Contact</div>
+                    <div class="value">WhatsApp — extremely responsive &amp; loves it!</div>
+                </div>
+                <div class="info-box">
+                    <div class="label">⏰ Timezone Note</div>
+                    <div class="value">Sunny is 6 hours behind Taiwan · Early morning for you = evening for them</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- COMMUNICATION STYLE -->
+        <section class="section" id="style">
+            <div class="section-header">
+                <span class="icon">💬</span>
+                <h2>Communication Style</h2>
+            </div>
+            <div class="divider"></div>
+            <div class="card-grid card-grid-3">
+                <div class="card">
+                    <div class="card-title">💫 Personality</div>
+                    <p>Warm, affectionate, emotionally open &amp; deeply caring. Uses lots of emojis ☀️ 😘 💕. Prefers short, sweet messages over long paragraphs. Very responsive &amp; loves engagement!</p>
+                </div>
+                <div class="card">
+                    <div class="card-title">📱 Message Style</div>
+                    <ul>
+                        <li>Quick, frequent messages throughout the day</li>
+                        <li>Casual and playful tone</li>
+                        <li>Heavy emoji use is encouraged 🌸✨💕</li>
+                        <li>Honest &amp; transparent about feelings</li>
+                        <li>Loves updates on daily life</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <div class="card-title">☎️ Voice Calls (MAJOR!)</div>
+                    <ul>
+                        <li>307 calls in just 4 months — loves them!</li>
+                        <li>Deep conversations &amp; emotional support</li>
+                        <li>Can go 20 minutes to 2+ hours</li>
+                        <li>Video calls also appreciated</li>
+                        <li>Perfect for late-night chats</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- BEST TIMES -->
+        <section class="section" id="times">
+            <div class="section-header">
+                <span class="icon">🕐</span>
+                <h2>Best Times to Reach Out</h2>
+            </div>
+            <div class="divider"></div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="time">7–10 AM Netherlands Time</div>
+                    <div class="desc">Perfect morning messages! Sunny is fresh &amp; energetic, very responsive.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="time">12–3 PM Netherlands Time</div>
+                    <div class="desc">Lunchtime! Great for food photos &amp; casual chat.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="time">7–11 PM Netherlands Time</div>
+                    <div class="desc">Best for voice calls! Sunny winds down after work, loves to chat.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="time">Anytime Really!</div>
+                    <div class="desc">Sunny is super flexible &amp; loves unexpected messages. No "wrong time"!</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TOPICS -->
+        <section class="section" id="topics">
+            <div class="section-header">
+                <span class="icon">🎯</span>
+                <h2>Topics They Love</h2>
+            </div>
+            <div class="divider"></div>
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-title">🍽️ FOOD IS #1</div>
+                    <p>Mentioned 130+ times! Ask "What did you eat today?" — instant engagement guaranteed. Share photos of your meals, discuss restaurants, recipes, and favourites.</p>
+                </div>
+                <div class="card">
+                    <div class="card-title">😴 Sleep Schedule</div>
+                    <p>Second most mentioned topic (127 times). Ask if they slept well. Share your sleep status. It's weirdly intimate &amp; sweet!</p>
+                </div>
+                <div class="card">
+                    <div class="card-title">✈️ Travel &amp; Adventures</div>
+                    <p>Love planning trips together. Discuss dream destinations, flights, hotels. Share travel photos &amp; experiences. Sunny is an adventure seeker!</p>
+                </div>
+                <div class="card">
+                    <div class="card-title">💕 Life Updates &amp; Feelings</div>
+                    <p>Share your day, emotions, challenges. Sunny genuinely cares and loves supporting you. Be vulnerable &amp; honest.</p>
+                </div>
+                <div class="card">
+                    <div class="card-title">👥 Mutual Friends</div>
+                    <p>Loves hearing about mutual friends like Justin, KC, Daniel, Iris, Eric. Share funny stories about people you both know!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- STARTERS -->
+        <section class="section" id="starters">
+            <div class="section-header">
+                <span class="icon">💡</span>
+                <h2>Conversation Starters</h2>
+            </div>
+            <div class="divider"></div>
+            <div class="starters-grid">
+                <div class="starter-pill">"What did you eat today? 🍽️"</div>
+                <div class="starter-pill">"Have you slept yet? 😴"</div>
+                <div class="starter-pill">"Miss you! When can we meet next? ✈️"</div>
+                <div class="starter-pill">"Thinking of you ☀️💕"</div>
+                <div class="starter-pill">"What's making you happy today?"</div>
+                <div class="starter-pill">"Let's plan our next trip!"</div>
+                <div class="starter-pill">"Send me a photo of what you're doing 📱"</div>
+                <div class="starter-pill">"How's your day going, sunshine? 🌞"</div>
+            </div>
+        </section>
+
+        <!-- WHAT MAKES THEM HAPPY -->
+        <section class="section" id="happy">
+            <div class="section-header">
+                <span class="icon">😊</span>
+                <h2>What Makes Sunny Happy</h2>
+            </div>
+            <div class="divider"></div>
+            <div class="card-grid">
+                <div class="card">
+                    <ul>
+                        <li>Spontaneous messages throughout the day</li>
+                        <li>Sharing photos &amp; documenting your life</li>
+                        <li>Expressing how much you care &amp; appreciate them</li>
+                        <li>Planning future trips together</li>
+                        <li>Voice calls with genuine conversation</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <ul>
+                        <li>Humor &amp; inside jokes</li>
+                        <li>Emotional honesty &amp; vulnerability</li>
+                        <li>Consistency &amp; reliability in communication</li>
+                        <li>Reminding them they're important to you</li>
+                        <li>Supporting them through challenges</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- WHAT TO AVOID -->
+        <section class="section" id="avoid">
+            <div class="section-header">
+                <span class="icon">⚠️</span>
+                <h2>What to Avoid</h2>
+            </div>
+            <div class="divider"></div>
+            <div class="warning-box">
+                <h3>Things That Hurt</h3>
+                <div class="warning-grid">
+                    <div class="warning-item">Long silences without explanation (Sunny will worry)</div>
+                    <div class="warning-item">Being too formal or distant</div>
+                    <div class="warning-item">Ignoring messages for extended periods</div>
+                    <div class="warning-item">Not making time for voice calls</div>
+                    <div class="warning-item">Avoiding emotional conversations</div>
+                    <div class="warning-item">Forgetting about plans or dates mentioned</div>
+                    <div class="warning-item">One-word responses when they're trying to connect</div>
+                    <div class="warning-item">Taking jokes/sarcasm seriously (Sunny uses humour!)</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- IDEAL DAY -->
+        <section class="section" id="ideal">
+            <div class="section-header">
+                <span class="icon">🌸</span>
+                <h2>Your Ideal Interaction Day</h2>
+            </div>
+            <div class="divider"></div>
+            <div class="ideal-day">
+                <div class="day-block">
+                    <div class="emoji">☀️</div>
+                    <div class="time">Morning</div>
+                    <div class="desc">Send a cute "Good morning ☀️" — starts their day right</div>
+                </div>
+                <div class="day-block">
+                    <div class="emoji">🍽️</div>
+                    <div class="time">Lunch Time</div>
+                    <div class="desc">Share what you're eating, ask about their meal — food bonding!</div>
+                </div>
+                <div class="day-block">
+                    <div class="emoji">💬</div>
+                    <div class="time">Afternoon</div>
+                    <div class="desc">Random messages, funny moments, share something that made you think of them</div>
+                </div>
+                <div class="day-block">
+                    <div class="emoji">☎️</div>
+                    <div class="time">Evening</div>
+                    <div class="desc">Phone call! Deep conversation about life, plans, or just check-in</div>
+                </div>
+                <div class="day-block">
+                    <div class="emoji">🌙</div>
+                    <div class="time">Night</div>
+                    <div class="desc">Sweet goodnight, express appreciation, plan next meetup</div>
+                </div>
+                <div class="day-block">
+                    <div class="emoji">💕</div>
+                    <div class="time">Bonus</div>
+                    <div class="desc">Send a voice note, remind them how important they are, plan travel</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- REMEMBER -->
+        <section class="section" id="remember">
+            <div class="section-header">
+                <span class="icon">💫</span>
+                <h2>Remember</h2>
+            </div>
+            <div class="divider"></div>
+            <div class="remember-box">
+                Sunny is someone truly special who cares deeply &amp; loves intensely. They appreciate consistency, honesty, &amp; genuine connection. The best way to chat with Sunny is simply <strong>BE YOURSELF</strong> — authentic, warm, &amp; present. This connection thrives on vulnerability &amp; mutual support. ✨
+                <br><br>
+                <strong>Most importantly: Sunny loves you, and showing up for them matters more than being perfect. 💕</strong>
+            </div>
+        </section>
+
+    </main>
+</div>
+
+<!-- FOOTER -->
+<footer>
+    <h3>✨ BECCA &amp; SUNNY <span class="heart">❤️</span> ✨</h3>
+    <p>Made with love 💕 · June 2026</p>
+    <p style="margin-top:10px;font-size:12px;opacity:.8;">
+        This guide was created with data from your actual WhatsApp conversations.<br>
+        Real connection, real love.
+    </p>
+</footer>
+
+<script>
+    // Highlight active nav link on scroll
+    const sections = document.querySelectorAll('.section');
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                navLinks.forEach(l => l.classList.remove('active'));
+                const link = document.querySelector(`.nav-link[href="#${entry.target.id}"]`);
+                if (link) link.classList.add('active');
+            }
+        });
+    }, { threshold: 0.4 });
+
+    sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
