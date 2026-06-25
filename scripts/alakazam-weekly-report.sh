@@ -1,12 +1,17 @@
 #!/bin/bash
 set -euo pipefail
 
-BOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+BOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.."; pwd)"
 
+# set -a exports ALL variables from .env to child processes (including claude CLI)
+# Without this, ANTHROPIC_API_KEY is set in the shell but not exported → 401 error
+set -a
 [ -f "$BOT_DIR/.env" ] && source "$BOT_DIR/.env"
+set +a
 
 : "${TELEGRAM_BOT_TOKEN:?請在 .env 設定 TELEGRAM_BOT_TOKEN}"
 : "${TELEGRAM_CHAT_ID:?請在 .env 設定 TELEGRAM_CHAT_ID}"
+: "${ANTHROPIC_API_KEY:?請在 .env 設定 ANTHROPIC_API_KEY（前往 https://console.anthropic.com/ 取得）}"
 
 DATE_TW=$(date '+%Y年%m月%d日')
 

@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-BOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+BOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.."; pwd)"
 
 echo "🥄 開始設定胡地 (Alakazam)..."
 echo ""
@@ -29,11 +29,12 @@ echo "✅ logs 目錄已建立：$BOT_DIR/logs"
 if [ ! -f "$BOT_DIR/.env" ]; then
   cp "$BOT_DIR/.env.example" "$BOT_DIR/.env"
   echo ""
-  echo "📝 已建立 .env 檔案，請填入你的 Telegram 設定："
+  echo "📝 已建立 .env 檔案，請填入你的設定："
   echo "   $BOT_DIR/.env"
   echo ""
-  echo "   TELEGRAM_BOT_TOKEN  →  從 @BotFather 拿到的 token"
-  echo "   TELEGRAM_CHAT_ID    →  傳訊息給 @userinfobot 查詢你的 chat id"
+  echo "   ANTHROPIC_API_KEY  →  從 https://console.anthropic.com/ 取得（⚠️ 必填，否則 401 錯誤）"
+  echo "   TELEGRAM_BOT_TOKEN →  從 @BotFather 拿到的 token"
+  echo "   TELEGRAM_CHAT_ID   →  傳訊息給 @userinfobot 查詢你的 chat id"
   echo ""
   read -p "填好後按 Enter 繼續..." _
 else
@@ -41,7 +42,17 @@ else
 fi
 
 # 確認 .env 有填內容
+set -a
 source "$BOT_DIR/.env"
+set +a
+
+if [ -z "${ANTHROPIC_API_KEY:-}" ] || [ "${ANTHROPIC_API_KEY}" = "your_anthropic_api_key_here" ]; then
+  echo "❌ 請先填入 ANTHROPIC_API_KEY（前往 https://console.anthropic.com/ 取得）"
+  echo "   這是 401 認證錯誤的根本原因 — crontab 不會載入你的 .zshrc"
+  exit 1
+fi
+echo "✅ ANTHROPIC_API_KEY 已設定"
+
 if [ -z "${TELEGRAM_BOT_TOKEN:-}" ] || [ "${TELEGRAM_BOT_TOKEN}" = "your_bot_token_here" ]; then
   echo "❌ 請先填入 TELEGRAM_BOT_TOKEN"
   exit 1
