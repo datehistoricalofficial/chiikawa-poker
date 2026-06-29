@@ -20,6 +20,8 @@ body {
   min-height: 100vh;
   color: #4a004a;
   padding: 16px;
+  animation: camera-wobble 5s ease-in-out infinite;
+  transform-origin: center center;
 }
 
 /* ===== 標題 ===== */
@@ -47,6 +49,7 @@ header h1 {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  filter: sepia(0.06) brightness(1.02) contrast(1.03) saturate(1.08);
 }
 
 /* ===== 對手區域 ===== */
@@ -328,4 +331,135 @@ header h1 {
   .opponent-card { min-width: 100px; padding: 10px 12px; }
   #action-area { gap: 8px; }
   .btn { padding: 8px 14px; font-size: 0.82rem; }
+}
+
+/* ===== 實境秀攝影效果 Reality Show Camera & Lighting ===== */
+
+/* Handheld camera idle wobble */
+@keyframes camera-wobble {
+  0%   { transform: translate(0, 0) rotate(0deg); }
+  20%  { transform: translate(0.4px, 0.6px) rotate(0.04deg); }
+  40%  { transform: translate(-0.5px, 0.3px) rotate(-0.05deg); }
+  60%  { transform: translate(0.6px, -0.4px) rotate(0.03deg); }
+  80%  { transform: translate(-0.3px, -0.5px) rotate(-0.03deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+/* Dramatic camera shake */
+@keyframes camera-shake {
+  0%   { transform: translate(0, 0) rotate(0deg); }
+  12%  { transform: translate(-3px, 1px) rotate(-0.4deg); }
+  24%  { transform: translate(3px, -2px) rotate(0.3deg); }
+  36%  { transform: translate(-2px, 3px) rotate(0.2deg); }
+  48%  { transform: translate(4px, 1px) rotate(-0.3deg); }
+  60%  { transform: translate(-2px, -2px) rotate(0.4deg); }
+  72%  { transform: translate(2px, 2px) rotate(-0.2deg); }
+  84%  { transform: translate(-1px, -1px) rotate(0.1deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+#game-container.camera-shake {
+  animation: camera-shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+/* Cinematic vignette */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9998;
+  background: radial-gradient(ellipse at 50% 50%, transparent 52%, rgba(8,0,8,0.44) 100%);
+}
+
+/* Film grain */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='512' height='512'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='512' height='512' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  animation: grain-drift 0.12s steps(1) infinite;
+}
+
+@keyframes grain-drift {
+  0%   { background-position: 0 0; }
+  10%  { background-position: -8% -12%; }
+  20%  { background-position: -18% 6%; }
+  30%  { background-position: 9% -28%; }
+  40%  { background-position: -6% 27%; }
+  50%  { background-position: -18% 12%; }
+  60%  { background-position: 18% -2%; }
+  70%  { background-position: 2% 18%; }
+  80%  { background-position: 4% 38%; }
+  90%  { background-position: -12% 12%; }
+  100% { background-position: 11% 6%; }
+}
+
+/* Spotlight overlay */
+#spotlight-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9997;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+#spotlight-overlay.active { opacity: 1; }
+
+/* Camera flash */
+#flash-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.92);
+  pointer-events: none;
+  z-index: 10000;
+  opacity: 0;
+}
+
+@keyframes camera-flash {
+  0%   { opacity: 0.85; }
+  100% { opacity: 0; }
+}
+#flash-overlay.flash {
+  animation: camera-flash 0.35s ease-out forwards;
+}
+
+/* Character reaction speech bubbles */
+@keyframes bubble-pop {
+  0%   { transform: translateX(-50%) scale(0.5) translateY(6px); opacity: 0; }
+  25%  { transform: translateX(-50%) scale(1.1) translateY(-3px); opacity: 1; }
+  75%  { transform: translateX(-50%) scale(1) translateY(0); opacity: 1; }
+  100% { transform: translateX(-50%) scale(0.9) translateY(-4px); opacity: 0; }
+}
+
+.reaction-bubble {
+  position: absolute;
+  top: -36px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  border: 2px solid var(--pink-mid);
+  border-radius: 12px;
+  padding: 3px 10px;
+  font-size: 0.82rem;
+  font-weight: bold;
+  color: var(--pink-deep);
+  pointer-events: none;
+  z-index: 200;
+  animation: bubble-pop 2.1s ease-in-out forwards;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(194,24,91,0.2);
+}
+.reaction-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 4px solid transparent;
+  border-top-color: var(--pink-mid);
 }

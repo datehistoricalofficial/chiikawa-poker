@@ -119,6 +119,9 @@ function startGame() {
     p.hand.push(state.deck.pop(), state.deck.pop());
   }
 
+  // 發牌閃光
+  triggerFlash();
+
   // 顯示玩家手牌
   setTimeout(() => {
     $('pc-0').replaceWith(cardHTML(state.player.hand[0], 0));
@@ -180,6 +183,11 @@ function playerRaise() {
   state.currentBet = raiseTotal;
   msg(`你加注至 ${raiseTotal} 籌碼 🔥`);
   state.playerActed = true;
+  triggerCameraShake();
+  triggerFlash();
+  for (const opp of state.opponents) {
+    if (!opp.folded) setTimeout(() => addReactionBubble(opp.id, 'shock'), Math.random() * 300 | 0);
+  }
   updateChipsDisplay();
   nextStage();
 }
@@ -189,7 +197,10 @@ function playerFold() {
   msg('你棄牌了… 🥺');
   setButtons(false, false, false, false, false);
   state.playerActed = true;
-  // 對手贏得彩池
+  triggerCameraShake();
+  for (const opp of state.opponents) {
+    if (!opp.folded) setTimeout(() => addReactionBubble(opp.id, 'win'), (Math.random() * 400 | 0) + 100);
+  }
   setTimeout(() => oppWinsAll(), 800);
 }
 
@@ -239,6 +250,8 @@ function oppAction(opp) {
       state.pot += paid;
       state.currentBet = raiseAmt;
       msg(`${opp.name} 加注了！🔥`);
+      triggerCameraShake();
+      addReactionBubble(opp.id, 'raise');
     } else {
       msg(`${opp.name} 過牌 ✅`);
     }
@@ -247,6 +260,7 @@ function oppAction(opp) {
       opp.folded = true;
       $(`opp-${opp.id}`).classList.add('folded');
       msg(`${opp.name} 棄牌了 🥺`);
+      addReactionBubble(opp.id, 'fold');
     } else {
       const paid = collectBet(opp, toCall);
       state.pot += paid;
@@ -309,6 +323,8 @@ function dealCommunity(count) {
 
 // ── 攤牌 ──────────────────────────────────────────
 function doShowdown() {
+  triggerFlash();
+
   // 翻開對手手牌
   for (const opp of state.opponents) {
     if (opp.folded) continue;
@@ -333,6 +349,18 @@ function doShowdown() {
   state.pot = 0;
   updateChipsDisplay();
   state.dealerIdx = (state.dealerIdx + 1) % state.opponents.length;
+
+  // 勝者聚光燈
+  setTimeout(() => {
+    for (const w of winners) {
+      const el = w.player === state.player
+        ? $('player-area')
+        : $(`opp-${w.player.id}`);
+      if (el) showSpotlightOn(el);
+      if (w.player !== state.player) addReactionBubble(w.player.id, 'win');
+    }
+  }, 400);
+
   showResult(winners.map(w => w.player), true, scores);
 }
 
@@ -460,6 +488,56 @@ function estimateHandStrength(hand, community) {
   const paired = v1 === v2;
   const highVal = Math.max(v1, v2);
   return paired ? 0.55 + highVal / 100 : highVal / 28;
+}
+
+// ── 實境秀攝影效果 Reality Show Camera Effects ────────────────
+
+function triggerCameraShake() {
+  const el = $('game-container');
+  el.classList.remove('camera-shake');
+  void el.offsetWidth; // force reflow
+  el.classList.add('camera-shake');
+  el.addEventListener('animationend', () => el.classList.remove('camera-shake'), { once: true });
+}
+
+function triggerFlash() {
+  const flash = $('flash-overlay');
+  if (!flash) return;
+  flash.classList.remove('flash');
+  void flash.offsetWidth;
+  flash.classList.add('flash');
+}
+
+function showSpotlightOn(el) {
+  const overlay = $('spotlight-overlay');
+  if (!overlay || !el) return;
+  const rect = el.getBoundingClientRect();
+  const x = rect.left + rect.width / 2;
+  const y = rect.top + rect.height / 2;
+  overlay.style.background = `radial-gradient(ellipse 380px 280px at ${x}px ${y}px, rgba(255,220,100,0.22) 0%, transparent 65%)`;
+  overlay.classList.add('active');
+  setTimeout(() => overlay.classList.remove('active'), 2500);
+}
+
+const REACTIONS = {
+  raise: ['！！！', '💢', '😤', '🔥'],
+  fold:  ['😅', '🙈', '諾...', 'やめて'],
+  win:   ['🎉', '😸', '✨', '最高！'],
+  shock: ['!?', '😱', '嗚...', 'え！？'],
+};
+
+function addReactionBubble(oppId, type) {
+  const card = $(`opp-${oppId}`);
+  if (!card) return;
+  const old = card.querySelector('.reaction-bubble');
+  if (old) old.remove();
+  const arr = REACTIONS[type] || REACTIONS.shock;
+  const text = arr[Math.floor(Math.random() * arr.length)];
+  const bubble = document.createElement('div');
+  bubble.className = 'reaction-bubble';
+  bubble.textContent = text;
+  card.appendChild(bubble);
+  setTimeout(() => { if (bubble.parentNode) bubble.remove(); }, 2100);
 }
 
 // ── 初始化 ──────────────────────────────────────
